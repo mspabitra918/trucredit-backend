@@ -148,8 +148,13 @@ export class LoanApplicationService {
         const like = `%${filters.q}%`;
         where[Op.or] = [
           { applicant_full_name: { [Op.iLike]: like } },
+          { applicant_first_name: { [Op.iLike]: like } },
+          { applicant_last_name: { [Op.iLike]: like } },
+          { applicant_email: { [Op.iLike]: like } },
           { applicant_phone_number: { [Op.iLike]: like } },
-          { applicant_account_type: { [Op.iLike]: like } },
+          whereFn(cast(col('applicant_account_type'), 'text'), {
+            [Op.iLike]: like,
+          }),
           whereFn(cast(col('status'), 'text'), { [Op.iLike]: like }),
         ];
       }
