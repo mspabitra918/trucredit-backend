@@ -29,8 +29,8 @@ async function bootstrap(): Promise<express.Express> {
   app.enableCors({
     origin: [
       'http://localhost:3000',
-      'https://lendingfinance.site',
-      'https://www.lendingfinance.site',
+      'https://trucredit-frontend.vercel.app',
+      'https://www.trucredit-frontend.vercel.app',
     ],
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     credentials: true,
