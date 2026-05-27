@@ -32,7 +32,7 @@ export class MessageService {
       } as Partial<Message> as Message);
 
       //   try {
-      //     const salesInbox = process.env.SALES_INBOX || 'sales@yubamedia.com';
+      //     const salesInbox = process.env.SALES_INBOX || 'sales@trucredit.com';
       //     await Promise.all([
       //       this.mail.sendLeadConfirmation(lead.email, lead.full_name),
       //       this.mail.sendLeadAlert(

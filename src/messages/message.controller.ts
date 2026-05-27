@@ -25,7 +25,7 @@ export class MessagesController {
     };
   }
 
-  @Get() // show all the message to the yuba team
+  @Get() // show all the message to the TruCredit team
   @UseGuards(RolesGuard)
   async list(
     @Query('inquiryType') inquiryType?: string,
@@ -34,7 +34,7 @@ export class MessagesController {
     return this.messages.findAll({ inquiryType, date });
   }
 
-  @Get(':id') // show all the message to the yuba team by there id
+  @Get(':id') // show all the message to the TruCredit team by their id
   @UseGuards(RolesGuard)
   async one(@Param('id') id: string) {
     return this.messages.findOne(id);
