@@ -6,9 +6,11 @@ import {
   Param,
   Post,
   Query,
+  UseGuards,
 } from '@nestjs/common';
 import { LoanApplicationService } from './loan_application.service';
 import { CreateLoanApplicationDto } from './dto/create-loan.dto';
+import { RolesGuard } from 'src/common/guards/roles.guard';
 
 const BACKEND_PUCLIC_URL = '/api/loans';
 
@@ -34,6 +36,7 @@ export class LoanApplicationController {
   }
 
   @Get('applications')
+  @UseGuards(RolesGuard) // Only admin can see all applications
   async getAllApplications(
     @Query('date') date?: string,
     @Query('q') q?: string,
@@ -56,6 +59,7 @@ export class LoanApplicationController {
   }
 
   @Get('applications/:id')
+  @UseGuards(RolesGuard) // Only admin can see application details
   async getById(@Param('id') id: string) {
     try {
       const loan = await this.loanService.getById(id);
