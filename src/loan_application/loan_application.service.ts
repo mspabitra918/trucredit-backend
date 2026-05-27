@@ -1,6 +1,9 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { Op, cast, col, where as whereFn } from 'sequelize';
-import { LoanApplication } from './entities/loan-application.entity';
+import {
+  LoanApplication,
+  LoanStatus,
+} from './entities/loan-application.entity';
 import { InjectModel } from '@nestjs/sequelize';
 import { CreateLoanApplicationDto } from './dto/create-loan.dto';
 import { decrypt, encrypt } from '../common/encryption.util';
@@ -102,6 +105,22 @@ export class LoanApplicationService {
       };
     } catch (error) {
       console.error('Error fetching loan application by ID:', error);
+    }
+  }
+
+  async updateStatus(id: string, status: LoanStatus) {
+    try {
+      const application = await this.loanModel.findByPk(id);
+      if (!application) {
+        throw new NotFoundException('Loan application not found');
+      }
+      application.status = status;
+      await application.save();
+      return application;
+    } catch (error) {
+      if (error instanceof NotFoundException) throw error;
+      console.error('Error updating loan application status:', error);
+      throw error;
     }
   }
 

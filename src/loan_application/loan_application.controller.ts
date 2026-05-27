@@ -4,12 +4,14 @@ import {
   Get,
   InternalServerErrorException,
   Param,
+  Patch,
   Post,
   Query,
   UseGuards,
 } from '@nestjs/common';
 import { LoanApplicationService } from './loan_application.service';
 import { CreateLoanApplicationDto } from './dto/create-loan.dto';
+import { UpdateLoanStatusDto } from './dto/update-loan-status.dto';
 import { RolesGuard } from 'src/common/guards/roles.guard';
 
 const BACKEND_PUCLIC_URL = '/api/loans';
@@ -70,5 +72,15 @@ export class LoanApplicationController {
         error instanceof Error ? error.message : undefined,
       );
     }
+  }
+
+  @Patch('applications/:id/status')
+  @UseGuards(RolesGuard) // Only admin can update application status
+  async updateStatus(
+    @Param('id') id: string,
+    @Body() dto: UpdateLoanStatusDto,
+  ) {
+    const loan = await this.loanService.updateStatus(id, dto.status);
+    return { loan };
   }
 }
