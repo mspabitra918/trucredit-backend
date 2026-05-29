@@ -40,6 +40,7 @@ export class LoanApplicationController {
   @Get('applications')
   @UseGuards(RolesGuard) // Only admin can see all applications
   async getAllApplications(
+    @Query('status') status?: string,
     @Query('date') date?: string,
     @Query('q') q?: string,
     @Query('tzOffset') tzOffset?: string,
@@ -50,6 +51,7 @@ export class LoanApplicationController {
         date,
         q,
         tzOffset: Number.isFinite(parsedTz) ? parsedTz : undefined,
+        status: status || undefined,
       });
       return { loans };
     } catch (error) {

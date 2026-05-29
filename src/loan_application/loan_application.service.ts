@@ -124,7 +124,12 @@ export class LoanApplicationService {
     }
   }
 
-  async getAll(filters?: { date?: string; q?: string; tzOffset?: number }) {
+  async getAll(filters?: {
+    date?: string;
+    q?: string;
+    tzOffset?: number;
+    status?: string;
+  }) {
     try {
       const where: any = {};
 
@@ -157,6 +162,10 @@ export class LoanApplicationService {
           }),
           whereFn(cast(col('status'), 'text'), { [Op.iLike]: like }),
         ];
+      }
+
+      if (filters?.status) {
+        where.status = filters.status;
       }
 
       const applications = await this.loanModel.findAll({
